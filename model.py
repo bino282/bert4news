@@ -4,7 +4,7 @@ from transformers import *
 
 
 class BertClassification(BertPreTrainedModel):
-   def __init__(self, config):
+    def __init__(self, config):
        super(BertClassification, self).__init__(config)
        self.num_labels = config.num_labels
        self.bert = BertModel(config)
@@ -14,7 +14,6 @@ class BertClassification(BertPreTrainedModel):
 
     def forward(self, input_ids=None, attention_mask=None, token_type_ids=None,
                 position_ids=None, head_mask=None, inputs_embeds=None, labels=None):
-
         outputs = self.bert(input_ids,
                             attention_mask=attention_mask,
                             token_type_ids=token_type_ids,
