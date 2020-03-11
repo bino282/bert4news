@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 from transformers import *
-
+from torch.nn import CrossEntropyLoss, MSELoss
 
 class BertClassification(BertPreTrainedModel):
     def __init__(self, config):
