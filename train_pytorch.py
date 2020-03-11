@@ -52,7 +52,7 @@ print('Token IDs:', input_ids[0])
 
 from keras.preprocessing.sequence import pad_sequences
 
-MAX_LEN = 128
+MAX_LEN = 200
 
 print('\nPadding/truncating all sentences to %d values...' % MAX_LEN)
 
@@ -132,7 +132,7 @@ model = BertForSequenceClassification.from_pretrained(
 )
 
 # Tell pytorch to run this model on the GPU.
-# model.cuda()
+model.cuda()
 
 
 # Get all of the model's parameters as a list of tuples.
@@ -335,7 +335,7 @@ for epoch_i in range(0, epochs):
         nb_eval_steps += 1
 
     # Report the final accuracy for this validation run.
-    print("  Accuracy: {0:.2f}".format(eval_accuracy/nb_eval_steps))
+    print("  F1 score: {0:.2f}".format(eval_accuracy/nb_eval_steps))
     print("  Validation took: {:}".format(format_time(time.time() - t0)))
 
 print("")
