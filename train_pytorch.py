@@ -18,6 +18,7 @@ else:
     device = torch.device("cpu")
 
 MODEL_PATH = '../local/bert_vi/bert4news.pytorch'
+OUTPUT_PATH = './output'
 df= pd.read_csv("./data/all.csv",sep="\t")
 sentences = df.text.values
 labels = df.label.values
@@ -337,6 +338,8 @@ for epoch_i in range(0, epochs):
     # Report the final accuracy for this validation run.
     print("  F1 score: {0:.2f}".format(eval_accuracy/nb_eval_steps))
     print("  Validation took: {:}".format(format_time(time.time() - t0)))
+    model.save_pretrained(os.path.join(OUTPUT_PATH, 'checkpoint-{}'.format(eval_accuracy/nb_eval_steps)))
+    tokenizer.save_pretrained(os.path.join(OUTPUT_PATH, 'checkpoint-{}'.format(eval_accuracy/nb_eval_steps)))
 
 print("")
 print("Training complete!")
