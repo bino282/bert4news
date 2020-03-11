@@ -338,8 +338,23 @@ for epoch_i in range(0, epochs):
     # Report the final accuracy for this validation run.
     print("  F1 score: {0:.2f}".format(eval_accuracy/nb_eval_steps))
     print("  Validation took: {:}".format(format_time(time.time() - t0)))
-    model.save_pretrained(os.path.join(OUTPUT_PATH, 'checkpoint-{}'.format(eval_accuracy/nb_eval_steps)))
-    tokenizer.save_pretrained(os.path.join(OUTPUT_PATH, 'checkpoint-{}'.format(eval_accuracy/nb_eval_steps)))
+    import os
+
+    # Saving best-practices: if you use defaults names for the model, you can reload it using from_pretrained()
+
+    output_dir = './model_save/'
+
+    # Create output directory if needed
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    print("Saving model to %s" % output_dir)
+
+    # Save a trained model, configuration and tokenizer using `save_pretrained()`.
+    # They can then be reloaded using `from_pretrained()`
+    model_to_save = model.module if hasattr(model, 'module') else model  # Take care of distributed/parallel training
+    model_to_save.save_pretrained(os.path.join(output_dir, 'checkpoint-{}'.format(eval_accuracy/nb_eval_steps)))
+    tokenizer.save_pretrained(os.path.join(output_dir, 'checkpoint-{}'.format(eval_accuracy/nb_eval_steps)))
 
 print("")
 print("Training complete!")

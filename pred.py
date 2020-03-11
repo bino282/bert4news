@@ -8,6 +8,7 @@ df = pd.read_csv("./data/test.csv",sep="\t")
 print('Number of test sentences: {:,}\n'.format(df.shape[0]))
 
 # Create sentence and label lists
+id_test = df.id.values.tolist()
 sentences = df.sentence.values
 labels = df.label.values
 
@@ -57,7 +58,7 @@ prediction_labels = torch.tensor(labels,dtype=torch.long)
 batch_size = 16
 
 # Create the DataLoader.
-prediction_data = TensorDataset(prediction_inputs, prediction_masks, prediction_labels)
+prediction_data = TensorDataset(prediction_inputs, prediction_masks)
 prediction_sampler = SequentialSampler(prediction_data)
 prediction_dataloader = DataLoader(prediction_data, sampler=prediction_sampler, batch_size=batch_size)
 
@@ -68,7 +69,7 @@ print('Predicting labels for {:,} test sentences...'.format(len(prediction_input
 # load_moel
 
 from transformers import BertForSequenceClassification, AdamW, BertConfig
-MODEL_PATH = ""
+MODEL_PATH = "./output"
 # Load BertForSequenceClassification, the pretrained BERT model with a single 
 # linear classification layer on top. 
 model = BertForSequenceClassification.from_pretrained(
@@ -77,7 +78,6 @@ model = BertForSequenceClassification.from_pretrained(
     output_attentions = False,
     output_hidden_states = False
 )
-
 
 
 # Put model in evaluation mode
@@ -92,7 +92,7 @@ for batch in prediction_dataloader:
   batch = tuple(t.to(device) for t in batch)
   
   # Unpack the inputs from our dataloader
-  b_input_ids, b_input_mask, b_labels = batch
+  b_input_ids, b_input_mask = batch
   
   # Telling the model not to compute or store gradients, saving memory and 
   # speeding up prediction
@@ -104,11 +104,16 @@ for batch in prediction_dataloader:
   logits = outputs[0]
 
   # Move logits and labels to CPU
-  logits = logits.detach().cpu().numpy()
-  label_ids = b_labels.to('cpu').numpy()
-  
+  logits = logits.detach().cpu().numpy()  
   # Store predictions and true labels
   predictions.append(logits)
-  true_labels.append(label_ids)
-
 print('    DONE.')
+
+fw = open("submission.csv")
+fw.write("id,label")
+fw.write("\n")
+
+for i in range(len(id_test)):
+    fw.write(",".join([id_test[i],prediction[i]]))
+    fw.write('\n')
+fw.close()
