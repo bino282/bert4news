@@ -68,7 +68,7 @@ print('Predicting labels for {:,} test sentences...'.format(len(prediction_input
 
 # load_moel
 from transformers import BertForSequenceClassification, AdamW, BertConfig
-MODEL_PATH = "./model_save/checkpoint-"
+MODEL_PATH = "./model_save/checkpoint-0.8959552291919823"
 
 model = BertForSequenceClassification.from_pretrained(
     MODEL_PATH,
