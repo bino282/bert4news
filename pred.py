@@ -1,6 +1,23 @@
 import pandas as pd
 import numpy as np
 from transformers import BertTokenizer
+import torch
+from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
+
+
+# If there's a GPU available...
+if torch.cuda.is_available():    
+
+    # Tell PyTorch to use the GPU.    
+    device = torch.device("cuda")
+
+    print('There are %d GPU(s) available.' % torch.cuda.device_count())
+
+    print('We will use the GPU:', torch.cuda.get_device_name(0))
+# If not...
+else:
+    print('No GPU available, using the CPU instead.')
+    device = torch.device("cpu")
 MODEL_PATH = '../local/bert_vi/bert4news.pytorch'
 # Load the dataset into a pandas dataframe.
 df = pd.read_csv("./data/test.csv",sep="\t")
@@ -30,7 +47,13 @@ print('Token IDs: ', tokenizer.convert_tokens_to_ids(tokenizer.tokenize(sentence
 input_ids = []
 # For every sentence...
 for sent in sentences:
-    print(sent)
+    try:
+        if(len(sent)==0):
+            sent=''
+            print(sent)
+    except:
+        sent= ''
+        print(sent)
     encoded_sent = tokenizer.encode(
                         sent,                      # Sentence to encode.
                         add_special_tokens = True, # Add '[CLS]' and '[SEP]'
@@ -38,7 +61,9 @@ for sent in sentences:
     
     input_ids.append(encoded_sent)
 
+from keras.preprocessing.sequence import pad_sequences
 # Pad our input tokens
+MAX_LEN = 200
 input_ids = pad_sequences(input_ids, maxlen=MAX_LEN, 
                           dtype="long", truncating="post", padding="post")
 
