@@ -356,7 +356,6 @@ for epoch_i in range(0, epochs):
     model_to_save = model.module if hasattr(model, 'module') else model  # Take care of distributed/parallel training
     model_to_save.save_pretrained(output_dir)
     tokenizer.save_pretrained(output_dir)
-    torch.save(args, os.path.join(output_dir, 'training_args.bin'))
 
 print("")
 print("Training complete!")

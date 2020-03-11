@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from transformers import BertTokenizer
 MODEL_PATH = '../local/bert_vi/bert4news.pytorch'
 # Load the dataset into a pandas dataframe.
@@ -63,11 +64,9 @@ prediction_sampler = SequentialSampler(prediction_data)
 prediction_dataloader = DataLoader(prediction_data, sampler=prediction_sampler, batch_size=batch_size)
 
 # Prediction on test set
-
 print('Predicting labels for {:,} test sentences...'.format(len(prediction_inputs)))
 
 # load_moel
-
 from transformers import BertForSequenceClassification, AdamW, BertConfig
 MODEL_PATH = "./model_save/checkpoint-"
 
@@ -99,6 +98,7 @@ fw.write("id,label")
 fw.write("\n")
 
 for i in range(len(id_test)):
-    fw.write(",".join([id_test[i],prediction[i]]))
+    pred_labels_i = np.argmax(predictions[i], axis=1).flatten().tolist()[0]
+    fw.write(",".join([id_test[i],pred_labels_i]))
     fw.write('\n')
 fw.close()
