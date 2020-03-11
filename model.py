@@ -22,9 +22,9 @@ class BertClassification(BertPreTrainedModel):
                             head_mask=head_mask,
                             inputs_embeds=inputs_embeds)
 
-        #pooled_output = outputs[1]
+        pooled_output = outputs[1]
 
-        pooled_output = torch.cat((outputs[2][-1][:,0, ...],outputs[2][-2][:,0, ...],-1))
+        # pooled_output = torch.cat((outputs[2][-1][:,0, ...],outputs[2][-2][:,0, ...],-1))
         pooled_output = self.dropout(pooled_output)
         logits = self.classifier(pooled_output)
 
