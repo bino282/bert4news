@@ -69,43 +69,28 @@ print('Predicting labels for {:,} test sentences...'.format(len(prediction_input
 # load_moel
 
 from transformers import BertForSequenceClassification, AdamW, BertConfig
-MODEL_PATH = "./output"
-# Load BertForSequenceClassification, the pretrained BERT model with a single 
-# linear classification layer on top. 
+MODEL_PATH = "./model_save/checkpoint-"
+
 model = BertForSequenceClassification.from_pretrained(
     MODEL_PATH,
     num_labels = 2,
     output_attentions = False,
     output_hidden_states = False
 )
-
-
-# Put model in evaluation mode
 model.eval()
 
 # Tracking variables 
 predictions , true_labels = [], []
-
 # Predict 
 for batch in prediction_dataloader:
-  # Add batch to GPU
   batch = tuple(t.to(device) for t in batch)
-  
-  # Unpack the inputs from our dataloader
   b_input_ids, b_input_mask = batch
-  
-  # Telling the model not to compute or store gradients, saving memory and 
-  # speeding up prediction
   with torch.no_grad():
-      # Forward pass, calculate logit predictions
       outputs = model(b_input_ids, token_type_ids=None, 
                       attention_mask=b_input_mask)
 
   logits = outputs[0]
-
-  # Move logits and labels to CPU
   logits = logits.detach().cpu().numpy()  
-  # Store predictions and true labels
   predictions.append(logits)
 print('    DONE.')
 

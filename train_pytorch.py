@@ -342,7 +342,8 @@ for epoch_i in range(0, epochs):
 
     # Saving best-practices: if you use defaults names for the model, you can reload it using from_pretrained()
 
-    output_dir = './model_save/'
+
+    output_dir = os.path.join('./model_save', 'checkpoint-{}'.format(eval_accuracy/nb_eval_steps))
 
     # Create output directory if needed
     if not os.path.exists(output_dir):
@@ -353,8 +354,9 @@ for epoch_i in range(0, epochs):
     # Save a trained model, configuration and tokenizer using `save_pretrained()`.
     # They can then be reloaded using `from_pretrained()`
     model_to_save = model.module if hasattr(model, 'module') else model  # Take care of distributed/parallel training
-    model_to_save.save_pretrained(os.path.join(output_dir, 'checkpoint-{}'.format(eval_accuracy/nb_eval_steps)))
-    tokenizer.save_pretrained(os.path.join(output_dir, 'checkpoint-{}'.format(eval_accuracy/nb_eval_steps)))
+    model_to_save.save_pretrained(output_dir)
+    tokenizer.save_pretrained(output_dir)
+    torch.save(args, os.path.join(output_dir, 'training_args.bin'))
 
 print("")
 print("Training complete!")
