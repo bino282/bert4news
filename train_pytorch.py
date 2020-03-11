@@ -223,16 +223,10 @@ for epoch_i in range(0, epochs):
     print('======== Epoch {:} / {:} ========'.format(epoch_i + 1, epochs))
     print('Training...')
 
-    # Measure how long the training epoch takes.
     t0 = time.time()
 
     # Reset the total loss for this epoch.
     total_loss = 0
-
-    # Put the model into training mode. Don't be mislead--the call to 
-    # `train` just changes the *mode*, it doesn't *perform* the training.
-    # `dropout` and `batchnorm` layers behave differently during training
-    # vs. test (source: https://stackoverflow.com/questions/51433378/what-does-model-train-do-in-pytorch)
     model.train()
 
     # For each batch of training data...
@@ -246,15 +240,6 @@ for epoch_i in range(0, epochs):
             # Report progress.
             print('  Batch {:>5,}  of  {:>5,}.    Elapsed: {:}.'.format(step, len(train_dataloader), elapsed))
 
-        # Unpack this training batch from our dataloader. 
-        #
-        # As we unpack the batch, we'll also copy each tensor to the GPU using the 
-        # `to` method.
-        #
-        # `batch` contains three pytorch tensors:
-        #   [0]: input ids 
-        #   [1]: attention masks
-        #   [2]: labels 
         b_input_ids = batch[0].to(device)
         b_input_mask = batch[1].to(device)
         b_labels = batch[2].to(device)
@@ -296,8 +281,6 @@ for epoch_i in range(0, epochs):
 
     t0 = time.time()
 
-    # Put the model in evaluation mode--the dropout layers behave differently
-    # during evaluation.
     model.eval()
 
     # Tracking variables 
