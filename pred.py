@@ -11,7 +11,6 @@ print('Number of test sentences: {:,}\n'.format(df.shape[0]))
 # Create sentence and label lists
 id_test = df.id.values.tolist()
 sentences = df.text.values
-labels = df.label.values
 
 # Load the BERT tokenizer.
 print('Loading BERT tokenizer...')
@@ -53,7 +52,6 @@ for seq in input_ids:
 # Convert to tensors.
 prediction_inputs = torch.tensor(input_ids,dtype=torch.long)
 prediction_masks = torch.tensor(attention_masks,dtype=torch.long)
-prediction_labels = torch.tensor(labels,dtype=torch.long)
 
 # Set the batch size.  
 batch_size = 16
