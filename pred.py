@@ -123,7 +123,8 @@ fw.write("id,label")
 fw.write("\n")
 
 for i in range(len(id_test)):
-    pred_labels_i = np.argmax(predictions[i], axis=1)print(pred_labels_i)
+    pred_labels_i = np.argmax(predictions[i], axis=1)
+    print(pred_labels_i)
     fw.write(",".join([id_test[i],str(pred_labels_i)]))
     fw.write('\n')
 fw.close()
