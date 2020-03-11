@@ -100,6 +100,7 @@ model = BertForSequenceClassification.from_pretrained(
     output_attentions = False,
     output_hidden_states = False
 )
+model.cuda()
 model.eval()
 
 # Tracking variables 
