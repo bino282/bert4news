@@ -23,7 +23,6 @@ class BertClassification(BertPreTrainedModel):
                             inputs_embeds=inputs_embeds)
 
         #pooled_output = outputs[1]
-        print(outputs[2])
 
         pooled_output = torch.cat((outputs[2][-1][:,0, ...],outputs[2][-2][:,0, ...], outputs[2][-3][:,0, ...], outputs[2][-4][:,0, ...]),-1)
         pooled_output = self.dropout(pooled_output)

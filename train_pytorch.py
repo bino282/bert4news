@@ -53,7 +53,7 @@ print('Token IDs:', input_ids[0])
 
 from keras.preprocessing.sequence import pad_sequences
 
-MAX_LEN = 200
+MAX_LEN = 300
 
 print('\nPadding/truncating all sentences to %d values...' % MAX_LEN)
 
@@ -134,7 +134,7 @@ model = BertClassification.from_pretrained(
 )
 
 # Tell pytorch to run this model on the GPU.
-# model.cuda()
+model.cuda()
 
 
 # Get all of the model's parameters as a list of tuples.
