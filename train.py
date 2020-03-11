@@ -75,3 +75,6 @@ model.fit(train_objectives=[(train_dataloader, train_loss)],
           warmup_steps=warmup_steps,
           output_path=model_save_path
           )
+
+# predict model
+
