@@ -121,10 +121,11 @@ validation_sampler = SequentialSampler(validation_data)
 validation_dataloader = DataLoader(validation_data, sampler=validation_sampler, batch_size=batch_size)
 
 from transformers import BertForSequenceClassification, AdamW, BertConfig
+from model import BertClassification
 
 # Load BertForSequenceClassification, the pretrained BERT model with a single 
 # linear classification layer on top. 
-model = BertForSequenceClassification.from_pretrained(
+model = BertClassification.from_pretrained(
     MODEL_PATH, # Use the 12-layer BERT model, with an uncased vocab.
     num_labels = 2, # The number of output labels--2 for binary classification.
                     # You can increase this for multi-class tasks.   
