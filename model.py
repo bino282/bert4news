@@ -14,6 +14,7 @@ class BertClassification(BertPreTrainedModel):
 
     def forward(self, input_ids=None, attention_mask=None, token_type_ids=None,
                 position_ids=None, head_mask=None, inputs_embeds=None, labels=None):
+
         outputs = self.bert(input_ids,
                             attention_mask=attention_mask,
                             token_type_ids=token_type_ids,
@@ -22,6 +23,7 @@ class BertClassification(BertPreTrainedModel):
                             inputs_embeds=inputs_embeds)
 
         #pooled_output = outputs[1]
+        print(outputs[2])
 
         pooled_output = torch.cat((outputs[2][-1][:,0, ...],outputs[2][-2][:,0, ...], outputs[2][-3][:,0, ...], outputs[2][-4][:,0, ...]),-1)
         pooled_output = self.dropout(pooled_output)
