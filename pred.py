@@ -118,7 +118,7 @@ for batch in prediction_dataloader:
   predictions.append(logits)
 print('    DONE.')
 
-fw = open("submission.csv")
+fw = open("submission.csv","w",encoding="utf-8")
 fw.write("id,label")
 fw.write("\n")
 
