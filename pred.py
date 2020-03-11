@@ -10,7 +10,7 @@ print('Number of test sentences: {:,}\n'.format(df.shape[0]))
 
 # Create sentence and label lists
 id_test = df.id.values.tolist()
-sentences = df.sentence.values
+sentences = df.text.values
 labels = df.label.values
 
 # Load the BERT tokenizer.
