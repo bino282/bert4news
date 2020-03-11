@@ -36,7 +36,7 @@ print('Tokenized: ', tokenizer.tokenize(sentences[0]))
 # Print the sentence mapped to token ids.
 print('Token IDs: ', tokenizer.convert_tokens_to_ids(tokenizer.tokenize(sentences[0])))
 
-MAX_LEN = 250
+MAX_LEN = 200
 input_ids = []
 
 # For every sentence...
