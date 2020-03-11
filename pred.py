@@ -30,6 +30,7 @@ print('Token IDs: ', tokenizer.convert_tokens_to_ids(tokenizer.tokenize(sentence
 input_ids = []
 # For every sentence...
 for sent in sentences:
+    print(sent)
     encoded_sent = tokenizer.encode(
                         sent,                      # Sentence to encode.
                         add_special_tokens = True, # Add '[CLS]' and '[SEP]'
