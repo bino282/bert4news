@@ -53,8 +53,6 @@ print('Token IDs:', input_ids[0])
 
 from keras.preprocessing.sequence import pad_sequences
 
-MAX_LEN = 300
-
 print('\nPadding/truncating all sentences to %d values...' % MAX_LEN)
 
 print('\nPadding token: "{:}", ID: {:}'.format(tokenizer.pad_token, tokenizer.pad_token_id))
