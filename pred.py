@@ -127,7 +127,7 @@ for model_name in list_model:
                             attention_mask=b_input_mask)
 
         logits = outputs[0]
-        logits = F.softmax(logits,dim=0)
+        logits = F.softmax(logits,dim=1)
         logits = logits.detach().cpu().numpy()  
         predictions.append(logits)
     flat_predictions = [item for sublist in predictions for item in sublist]
