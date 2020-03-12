@@ -143,8 +143,7 @@ exit()
 fw = open("submission.csv","w",encoding="utf-8")
 fw.write("id,label")
 fw.write("\n")
-flat_predictions = [item for sublist in predictions for item in sublist]
-flat_predictions = np.argmax(flat_predictions, axis=1).flatten().tolist()
+flat_predictions = np.argmax(list_predictions, axis=1).flatten().tolist()
 for i in range(len(id_test)):
     fw.write(",".join([id_test[i],str(flat_predictions[i])]))
     fw.write('\n')
