@@ -2,23 +2,33 @@
 from transformers import BertTokenizer
 import pandas as pd
 import torch
+import argparse
 
-# If there's a GPU available...
-if torch.cuda.is_available():    
+parser = argparse.ArgumentParser()
+parser.add_argument('--model_path',default='../local/bert_vi/bert4news.pytorch')
+parser.add_argument('--max_len',default=128,type=int)
+parser.add_argument('--batch_size',default=16,type=int)
+parser.add_argument('--epochs',default=6,type=int)
+parser.add_argument('--lr',default=2e-5,type=float)
+args = parser.parse_args()
 
-    # Tell PyTorch to use the GPU.    
+if torch.cuda.is_available():       
     device = torch.device("cuda")
 
     print('There are %d GPU(s) available.' % torch.cuda.device_count())
 
     print('We will use the GPU:', torch.cuda.get_device_name(0))
-# If not...
 else:
     print('No GPU available, using the CPU instead.')
     device = torch.device("cpu")
 
-MODEL_PATH = '../local/bert_vi/bert4news.pytorch'
-OUTPUT_PATH = './output'
+MODEL_PATH = args.model_path
+MAX_LEN = args.max_len
+batch_size = args.batch_size
+epochs = args.epochs
+lr = args.lr
+
+
 df= pd.read_csv("./data/all.csv",sep="\t")
 sentences = df.text.values
 labels = df.label.values
@@ -26,17 +36,9 @@ labels = df.label.values
 # Load the BERT tokenizer.
 print('Loading BERT tokenizer...')
 tokenizer = BertTokenizer.from_pretrained(MODEL_PATH, do_lower_case=False)
-
-# Print the original sentence.
 print(' Original: ', sentences[0])
-
-# Print the sentence split into tokens.
 print('Tokenized: ', tokenizer.tokenize(sentences[0]))
-
-# Print the sentence mapped to token ids.
 print('Token IDs: ', tokenizer.convert_tokens_to_ids(tokenizer.tokenize(sentences[0])))
-
-MAX_LEN = 256
 input_ids = []
 
 # For every sentence...
@@ -101,13 +103,6 @@ validation_masks = torch.tensor(validation_masks,dtype=torch.long)
 
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 
-# The DataLoader needs to know our batch size for training, so we specify it 
-# here.
-# For fine-tuning BERT on a specific task, the authors recommend a batch size of
-# 16 or 32.
-
-batch_size = 16
-
 # Create the DataLoader for our training set.
 train_data = TensorDataset(train_inputs, train_masks, train_labels)
 train_sampler = RandomSampler(train_data)
@@ -121,19 +116,16 @@ validation_dataloader = DataLoader(validation_data, sampler=validation_sampler, 
 from transformers import BertForSequenceClassification, AdamW, BertConfig
 from model import BertClassification
 
-# Load BertForSequenceClassification, the pretrained BERT model with a single 
-# linear classification layer on top. 
 model = BertForSequenceClassification.from_pretrained(
-    MODEL_PATH, # Use the 12-layer BERT model, with an uncased vocab.
-    num_labels = 2, # The number of output labels--2 for binary classification.
-                    # You can increase this for multi-class tasks.   
-    output_attentions = False, # Whether the model returns attentions weights.
-    output_hidden_states = True, # Whether the model returns all hidden-states.
+    MODEL_PATH,
+    num_labels = 2,
+    output_attentions = False,
+    output_hidden_states = True,
 )
 
 # Tell pytorch to run this model on the GPU.
-model.cuda()
-
+if torch.cuda.is_available():
+    model.cuda()
 
 # Get all of the model's parameters as a list of tuples.
 params = list(model.named_parameters())
@@ -155,18 +147,12 @@ print('\n==== Output Layer ====\n')
 for p in params[-4:]:
     print("{:<55} {:>12}".format(p[0], str(tuple(p[1].size()))))
 
-
-# Note: AdamW is a class from the huggingface library (as opposed to pytorch) 
-# I believe the 'W' stands for 'Weight Decay fix"
 optimizer = AdamW(model.parameters(),
-                  lr = 2e-5, # args.learning_rate - default is 5e-5, our notebook had 2e-5
-                  eps = 1e-8 # args.adam_epsilon  - default is 1e-8.
+                  lr = lr,
+                  eps = 1e-8
                 )
 
 from transformers import get_linear_schedule_with_warmup
-
-# Number of training epochs (authors recommend between 2 and 4)
-epochs = 6
 
 # Total number of training steps is number of batches * number of epochs.
 total_steps = len(train_dataloader) * epochs
@@ -211,12 +197,6 @@ loss_values = []
 
 # For each epoch...
 for epoch_i in range(0, epochs):
-    
-    # ========================================
-    #               Training
-    # ========================================
-    
-    # Perform one full pass over the training set.
 
     print("")
     print('======== Epoch {:} / {:} ========'.format(epoch_i + 1, epochs))
