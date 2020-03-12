@@ -27,7 +27,7 @@ else:
     device = torch.device("cpu")
 MODEL_PATH = '../local/bert_vi/bert4news.pytorch'
 # Load the dataset into a pandas dataframe.
-df = pd.read_csv("./data/test.csv",sep="\t",nrows=100)
+df = pd.read_csv("./data/test.csv",sep="\t")
 
 # Report the number of sentences.
 print('Number of test sentences: {:,}\n'.format(df.shape[0]))
