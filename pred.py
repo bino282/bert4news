@@ -102,7 +102,7 @@ from transformers import BertForSequenceClassification, AdamW, BertConfig
 import os
 MODEL_PATH = args.model_path
 
-list_model = os.list_dir(MODEL_PATH)
+list_model = os.listdir(MODEL_PATH)
 list_predictions = []
 for model_name in list_model:
     model = BertForSequenceClassification.from_pretrained(
