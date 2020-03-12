@@ -6,7 +6,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--model_path',default='../local/bert_vi/bert4news.pytorch')
-parser.add_argument('--max_len',default=128,type=int)
+parser.add_argument('--max_len',default=200,type=int)
 parser.add_argument('--batch_size',default=16,type=int)
 parser.add_argument('--epochs',default=6,type=int)
 parser.add_argument('--lr',default=2e-5,type=float)
@@ -305,7 +305,7 @@ for epoch_i in range(0, epochs):
     # Saving best-practices: if you use defaults names for the model, you can reload it using from_pretrained()
 
 
-    output_dir = os.path.join('./model_save', 'checkpoint-{}'.format(eval_accuracy/nb_eval_steps))
+    output_dir = os.path.join('./model_save', 'checkpoint-{}-{}'.format(lr, eval_accuracy/nb_eval_steps))
 
     # Create output directory if needed
     if not os.path.exists(output_dir):

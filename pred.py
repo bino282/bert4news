@@ -8,7 +8,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--model_path',default='./model_save')
-parser.add_argument('--max_len',default=128,type=int)
+parser.add_argument('--max_len',default=200,type=int)
 parser.add_argument('--batch_size',default=16,type=int)
 args = parser.parse_args()
 
