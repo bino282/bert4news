@@ -136,8 +136,6 @@ for model_name in list_model:
 list_predictions = np.asarray(list_predictions)
 
 list_predictions = np.mean(list_predictions,axis=0)
-print(list_predictions)
-print(list_predictions.shape)
 
 fw = open("submission.csv","w",encoding="utf-8")
 fw.write("id,label")
