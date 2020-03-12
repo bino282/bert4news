@@ -106,7 +106,7 @@ list_model = os.listdir(MODEL_PATH)
 list_predictions = []
 for model_name in list_model:
     model = BertForSequenceClassification.from_pretrained(
-        os.paht.join(MODEL_PATH,model_name),
+        os.path.join(MODEL_PATH,model_name),
         num_labels = 2,
         output_attentions = False,
         output_hidden_states = False
