@@ -99,6 +99,7 @@ print('Predicting labels for {:,} test sentences...'.format(len(prediction_input
 
 # load_moel
 from transformers import BertForSequenceClassification, AdamW, BertConfig
+import os
 MODEL_PATH = args.model_path
 
 list_model = os.list_dir(MODEL_PATH)
