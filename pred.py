@@ -134,9 +134,10 @@ for model_name in list_model:
     list_predictions.append(flat_predictions)
 
 list_predictions = np.asarray(list_predictions)
+
+list_predictions = np.mean(list_predictions,axis=0)
 print(list_predictions)
 print(list_predictions.shape)
-
 exit()
 
 fw = open("submission.csv","w",encoding="utf-8")
