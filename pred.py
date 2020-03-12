@@ -4,6 +4,13 @@ from transformers import BertTokenizer
 import torch
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--model_path',default='../model_save')
+parser.add_argument('--max_len',default=128,type=int)
+parser.add_argument('--batch_size',default=16,type=int)
+args = parser.parse_args()
 
 # If there's a GPU available...
 if torch.cuda.is_available():    
@@ -20,7 +27,7 @@ else:
     device = torch.device("cpu")
 MODEL_PATH = '../local/bert_vi/bert4news.pytorch'
 # Load the dataset into a pandas dataframe.
-df = pd.read_csv("./data/test.csv",sep="\t")
+df = pd.read_csv("./data/test.csv",sep="\t",nrows=100)
 
 # Report the number of sentences.
 print('Number of test sentences: {:,}\n'.format(df.shape[0]))
@@ -63,7 +70,7 @@ for sent in sentences:
 
 from keras.preprocessing.sequence import pad_sequences
 # Pad our input tokens
-MAX_LEN = 200
+MAX_LEN = args.max_len
 input_ids = pad_sequences(input_ids, maxlen=MAX_LEN, 
                           dtype="long", truncating="post", padding="post")
 
@@ -80,7 +87,7 @@ prediction_inputs = torch.tensor(input_ids,dtype=torch.long)
 prediction_masks = torch.tensor(attention_masks,dtype=torch.long)
 
 # Set the batch size.  
-batch_size = 16
+batch_size = args.batch_size
 
 # Create the DataLoader.
 prediction_data = TensorDataset(prediction_inputs, prediction_masks)
@@ -92,31 +99,42 @@ print('Predicting labels for {:,} test sentences...'.format(len(prediction_input
 
 # load_moel
 from transformers import BertForSequenceClassification, AdamW, BertConfig
-MODEL_PATH = "./model_save/checkpoint-0.9026170966851649"
+MODEL_PATH = args.model_path
 
-model = BertForSequenceClassification.from_pretrained(
-    MODEL_PATH,
-    num_labels = 2,
-    output_attentions = False,
-    output_hidden_states = False
-)
-model.cuda()
-model.eval()
+list_model = os.list_dir(MODEL_PATH)
+list_predictions = []
+for model_name in list_model:
+    model = BertForSequenceClassification.from_pretrained(
+        os.paht.join(MODEL_PATH,model_name),
+        num_labels = 2,
+        output_attentions = False,
+        output_hidden_states = False
+    )
+    if torch.cuda.is_available():
+        model.cuda()
+    model.eval()
 
-# Tracking variables 
-predictions , true_labels = [], []
-# Predict 
-for batch in prediction_dataloader:
-  batch = tuple(t.to(device) for t in batch)
-  b_input_ids, b_input_mask = batch
-  with torch.no_grad():
-      outputs = model(b_input_ids, token_type_ids=None, 
-                      attention_mask=b_input_mask)
+    # Tracking variables 
+    predictions= []
+    # Predict 
+    for batch in prediction_dataloader:
+    batch = tuple(t.to(device) for t in batch)
+    b_input_ids, b_input_mask = batch
+    with torch.no_grad():
+        outputs = model(b_input_ids, token_type_ids=None, 
+                        attention_mask=b_input_mask)
 
-  logits = outputs[0]
-  logits = logits.detach().cpu().numpy()  
-  predictions.append(logits)
-print('    DONE.')
+    logits = outputs[0]
+    logits = logits.detach().cpu().numpy()  
+    predictions.append(logits)
+    flat_predictions = [item for sublist in predictions for item in sublist]
+    list_predictions.append(flat_predictions)
+
+list_predictions = np.asarray(list_predictions)
+print(list_predictions)
+print(list_predictions.shape)
+
+exit()
 
 fw = open("submission.csv","w",encoding="utf-8")
 fw.write("id,label")
