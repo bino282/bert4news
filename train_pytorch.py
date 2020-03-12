@@ -83,10 +83,10 @@ from sklearn.model_selection import train_test_split
 
 # Use 90% for training and 10% for validation.
 train_inputs, validation_inputs, train_labels, validation_labels = train_test_split(input_ids, labels, 
-                                                            random_state=2018, test_size=0.1)
+                                                            random_state=42, test_size=0.2)
 # Do the same for the masks.
 train_masks, validation_masks, _, _ = train_test_split(attention_masks, labels,
-                                             random_state=2018, test_size=0.1)
+                                             random_state=42, test_size=0.2)
 
 # Convert all inputs and labels into torch tensors, the required datatype 
 # for our model.
@@ -123,7 +123,7 @@ from model import BertClassification
 
 # Load BertForSequenceClassification, the pretrained BERT model with a single 
 # linear classification layer on top. 
-model = BertClassification.from_pretrained(
+model = BertForSequenceClassification.from_pretrained(
     MODEL_PATH, # Use the 12-layer BERT model, with an uncased vocab.
     num_labels = 2, # The number of output labels--2 for binary classification.
                     # You can increase this for multi-class tasks.   
