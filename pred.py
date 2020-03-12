@@ -99,6 +99,7 @@ print('Predicting labels for {:,} test sentences...'.format(len(prediction_input
 
 # load_moel
 from transformers import BertForSequenceClassification, AdamW, BertConfig
+import torch.nn.functional as F
 import os
 MODEL_PATH = args.model_path
 
@@ -126,6 +127,7 @@ for model_name in list_model:
                             attention_mask=b_input_mask)
 
         logits = outputs[0]
+        logits = F.softmax(logits,axis=0)
         logits = logits.detach().cpu().numpy()  
         predictions.append(logits)
     flat_predictions = [item for sublist in predictions for item in sublist]
