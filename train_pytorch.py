@@ -85,10 +85,10 @@ from sklearn.model_selection import train_test_split
 
 # Use 90% for training and 10% for validation.
 train_inputs, validation_inputs, train_labels, validation_labels = train_test_split(input_ids, labels, 
-                                                            random_state=42, test_size=0.2)
+                                                            random_state=42, test_size=0.1)
 # Do the same for the masks.
 train_masks, validation_masks, _, _ = train_test_split(attention_masks, labels,
-                                             random_state=42, test_size=0.2)
+                                             random_state=42, test_size=0.1)
 
 # Convert all inputs and labels into torch tensors, the required datatype 
 # for our model.
