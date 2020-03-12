@@ -118,15 +118,15 @@ for model_name in list_model:
     predictions= []
     # Predict 
     for batch in prediction_dataloader:
-    batch = tuple(t.to(device) for t in batch)
-    b_input_ids, b_input_mask = batch
-    with torch.no_grad():
-        outputs = model(b_input_ids, token_type_ids=None, 
-                        attention_mask=b_input_mask)
+        batch = tuple(t.to(device) for t in batch)
+        b_input_ids, b_input_mask = batch
+        with torch.no_grad():
+            outputs = model(b_input_ids, token_type_ids=None, 
+                            attention_mask=b_input_mask)
 
-    logits = outputs[0]
-    logits = logits.detach().cpu().numpy()  
-    predictions.append(logits)
+        logits = outputs[0]
+        logits = logits.detach().cpu().numpy()  
+        predictions.append(logits)
     flat_predictions = [item for sublist in predictions for item in sublist]
     list_predictions.append(flat_predictions)
 
