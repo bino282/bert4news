@@ -1,6 +1,6 @@
 # BERT for Vietnamese on more 20 GB news dataset
-# Apply for task sentiment analysis on using [AIViVN's comments dataset](https://www.aivivn.com/contests/6)
-======
+
+Apply for task sentiment analysis on using [AIViVN's comments dataset](https://www.aivivn.com/contests/6)
 
 ***************New Mar 11 , 2020 ***************
 
@@ -9,6 +9,7 @@
 You can download trained model:
 - [tensorflow](https://drive.google.com/file/d/1X-sRDYf7moS_h61J3L79NkMVGHP-P-k5/view?usp=sharing).
 - [pytorch](https://drive.google.com/file/d/11aFSTpYIurn-oI2XpAmcCTccB_AonMOu/view?usp=sharing).
+
 
 
 ### Contact information
