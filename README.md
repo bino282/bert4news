@@ -12,5 +12,18 @@ You can download trained model:
 
 
 
+Run training with base config
+
+``` bash
+
+python train_pytorch.py \
+  --model_path=bert4news.pytorch \
+  --max_len=200 \
+  --batch_size=16 \
+  --epochs=6 \
+  --lr=2e-5
+
+```
+
 ### Contact information
 For personal communication related to this project, please contact Nha Nguyen Van (nha282@gmail.com).
