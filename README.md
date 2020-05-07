@@ -1,6 +1,7 @@
 # BERT for Vietnamese on more 20 GB news dataset
 
 Apply for task sentiment analysis on using [AIViVN's comments dataset](https://www.aivivn.com/contests/6)
+
 The model achieved 0.90268 on the public leaderboard, (winner's score is 0.90087)
 
 ***************New Mar 11 , 2020 ***************
