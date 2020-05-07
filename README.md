@@ -1,4 +1,4 @@
-# BERT for Vietnamese on more 20 GB news dataset
+# BERT for Vietnamese is trained on more 20 GB news dataset
 
 Apply for task sentiment analysis on using [AIViVN's comments dataset](https://www.aivivn.com/contests/6)
 
