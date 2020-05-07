@@ -5,7 +5,7 @@ import torch
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model_path',default='../local/bert_vi/bert4news.pytorch')
+parser.add_argument('--model_path',default='bert4news.pytorch')
 parser.add_argument('--max_len',default=200,type=int)
 parser.add_argument('--batch_size',default=16,type=int)
 parser.add_argument('--epochs',default=6,type=int)
