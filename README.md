@@ -3,6 +3,7 @@
 Apply for task sentiment analysis on using [AIViVN's comments dataset](https://www.aivivn.com/contests/6)
 
 The model achieved 0.90268 on the public leaderboard, (winner's score is 0.90087)
+Bert4news is used for a toolkit Vietnames(segmentation and Named Entity Recognition) at ViNLPtoolkit(https://github.com/bino282/ViNLP)
 
 ***************New Mar 11 , 2020 ***************
 
