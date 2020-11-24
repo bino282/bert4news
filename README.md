@@ -14,6 +14,7 @@ We use word sentencepiece, use basic bert tokenization and same config with bert
 You can download trained model:
 - [tensorflow](https://drive.google.com/file/d/1X-sRDYf7moS_h61J3L79NkMVGHP-P-k5/view?usp=sharing).
 - [pytorch](https://drive.google.com/file/d/11aFSTpYIurn-oI2XpAmcCTccB_AonMOu/view?usp=sharing).
+
 Use with huggingface/transformers
 ``` bash
 import torch
