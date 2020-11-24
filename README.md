@@ -18,7 +18,7 @@ You can download trained model:
 Use with huggingface/transformers
 ``` bash
 import torch
-from transformers import BertTokenizer,BertModel,AutoTokenizer,AutoModel
+from transformers import AutoTokenizer,AutoModel
 tokenizer= AutoTokenizer.from_pretrained("NlpHUST/vibert4news-base-cased")
 bert_model = AutoModel.from_pretrained("NlpHUST/vibert4news-base-cased")
 
