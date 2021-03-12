@@ -12,8 +12,8 @@ Bert4news is used for a toolkit Vietnames(segmentation and Named Entity Recognit
 We use word sentencepiece, use basic bert tokenization and same config with bert base with lowercase = False.
 
 You can download trained model:
-- [tensorflow](https://drive.google.com/file/d/1X-sRDYf7moS_h61J3L79NkMVGHP-P-k5/view?usp=sharing).
-- [pytorch](https://drive.google.com/file/d/11aFSTpYIurn-oI2XpAmcCTccB_AonMOu/view?usp=sharing).
+- [tensorflow](https://drive.google.com/drive/folders/1d_MFVi32YRZTBHDNQahAGyqlzetS8XLU?usp=sharing).
+- [pytorch](https://drive.google.com/drive/folders/1-vAaQTdaLwMk2rEyTXOsTZAfZ7MTlyIQ?usp=sharing).
 
 Use with huggingface/transformers
 ``` bash
